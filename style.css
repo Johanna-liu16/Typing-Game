@@ -21,3 +21,13 @@ h1 {
 h1 svg {
     width: 80px;
 }
+
+.timer {
+    position: absolute;
+    left: 50px;
+    font-size: 18px;
+}
+
+.words {
+    
+}
