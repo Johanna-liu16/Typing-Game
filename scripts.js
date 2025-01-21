@@ -20,12 +20,24 @@ async function getWords() {
 async function renderWords() {
     var quote = [];
 
-   for (var i = 0; i < 50; i++) {
+   for (var i = 0; i < 25; i++) {
         aWord = await getWords();
         quote.push(aWord);
     }
-    document.getElementById('words').innerHTML = quote.join("\n")
+    quote = quote.concat(quote)
+    quote = quote.join("\n")
+    document.getElementById('words').innerHTML = quote
+
+    // separat each character
+    for (var j = 0; j <quote.length; j++) {
+        document.getElementById('words').innerHTML += (`<span>${quote[j]}</span>`)
+    }
 }
+
+// detect typing
+ document.getElementById('game').addEventListener("keyup", ev => {
+    console.log(ev)
+ })
 
 renderWords();
 
