@@ -28,16 +28,16 @@ async function renderWords() {
     quote = quote.join("\n")
     document.getElementById('words').innerHTML = quote
 
-    // separat each character
+    // separate each character
     for (var j = 0; j <quote.length; j++) {
         document.getElementById('words').innerHTML += (`<span>${quote[j]}</span>`)
     }
-}
 
-// detect typing
- document.getElementById('game').addEventListener("keyup", ev => {
-    console.log(ev)
- })
+    //detect keyborad actions 
+    document.getElementById('game').addEventListener('keyup', event => {
+        console.log(event)
+    })
+}
 
 renderWords();
 
