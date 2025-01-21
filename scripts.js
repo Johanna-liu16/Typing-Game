@@ -2,27 +2,30 @@
 // Created by: Johanna Liu
 // Date: Jan 2024
 
-// create 200 random words
-function randomWords() {
-    var theWords = [];
+// create words from api
+function generateWords() {
+    return fetch('https://random-word-api.herokuapp.com/word')
+        .then(response => response.json())
+        .then(data => data[0]);
+}
 
-    for (var i = 0; i < 200; i++) {
-        fetch('https://random-word-api.herokuapp.com/word')
-            .then(response => {
-                return response.json();
-            })
-            .then(data => {
-                const word = data[0];
-                theWords.push(word);
-            })
+// get the created word
+async function getWords() {
+
+    var word = await generateWords();
+    return word;
+}
+
+//make array of words
+async function renderWords() {
+    var quote = [];
+
+   for (var i = 0; i < 50; i++) {
+        aWord = await getWords();
+        quote.push(aWord);
     }
-    return theWords;
+    document.getElementById('words').innerHTML = quote.join("\n")
 }
 
-//starts game
-function newGame() {
-    document.getElementById('words').innerHTML = randomWords();
-}
-
-newGame();
+renderWords();
 
