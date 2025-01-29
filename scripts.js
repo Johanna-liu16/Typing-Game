@@ -59,6 +59,7 @@ function trackTyping() {
         const expected = currentLetter.innerHTML;
         const isLetter = key.length === 1 && key !== ' ';
         const isSpace = key === ' '
+        const isBackspace = key === 'Backspace'
 
         console.log({key, expected})
 
@@ -77,7 +78,22 @@ function trackTyping() {
                 addClass(currentLetter, 'correct')
                 currentIndex++
             }
+        }
 
+        if(isBackspace) {
+            if (currentLetter) {
+                currentIndex--
+                removeClass(letters[currentIndex], 'wrong')
+                removeClass(letters[currentIndex], 'correct')
+            }
+        }
+
+        // move cursor 
+        const cursor = document.getElementById('cursor')
+        const nextLetter = letters[currentIndex];
+        if (nextLetter) {
+            cursor.style.top = nextLetter.getBoundingClientRect().top + 2 + 'px';
+            cursor.style.left = nextLetter.getBoundingClientRect().left + 2 + 'px'
         }
     });
 }
