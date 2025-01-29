@@ -49,3 +49,19 @@ div#game {
     height: 105px;
     overflow: hidden;
 }
+
+.letter.correct{
+    color: #fff;
+}
+.letter.wrong{
+    color: #f55;
+}
+
+#cursor {
+    width: 2px;
+    height: 2rem;
+    background-color: var(--textPrimary);
+    position: fixed;
+    top: 210px;
+    left: 5px;
+}
