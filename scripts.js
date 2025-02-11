@@ -95,6 +95,13 @@ function trackTyping() {
             cursor.style.top = nextLetter.getBoundingClientRect().top + 2 + 'px';
             cursor.style.left = nextLetter.getBoundingClientRect().left + 2 + 'px'
         }
+
+        // move lines
+        if (currentLetter.getBoundingClientRect().top > 250) {
+            const wordBank = document.getElementById('words')
+            const margin = parseInt(wordBank.style.marginTop || '0px')
+            wordBank.style.marginTop = margin - 35 + 'px'
+        }
     });
 }
 
