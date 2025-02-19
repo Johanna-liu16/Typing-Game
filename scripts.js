@@ -43,8 +43,9 @@ async function renderWords() {
         wordsContainer.appendChild(span);
     });
 
-    // Start tracking typing input
+    // Start tracking typing input and timer
     trackTyping();
+    startTimer();
 }
 
 // Typing logic
@@ -100,9 +101,26 @@ function trackTyping() {
         if (currentLetter.getBoundingClientRect().top > 250) {
             const wordBank = document.getElementById('words')
             const margin = parseInt(wordBank.style.marginTop || '0px')
-            wordBank.style.marginTop = margin - 35 + 'px'
+            wordBank.style.marginTop = (margin - 35) + 'px'
         }
     });
+}
+
+// the timer
+function startTimer() {
+    let timerElement = document.getElementById('timer');
+    let timer = 30; 
+
+    timerElement.innerHTML = `${timer}`;
+
+    let countdown = setInterval(() => {
+        timer--;
+        timerElement.innerHTML = `${timer}`;
+
+        if (timer <= 0) {
+            clearInterval(countdown); // Stop the timer at 0
+        }
+    }, 1000);
 }
 
 // Initialize the game
