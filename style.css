@@ -71,3 +71,16 @@ div#game {
     top: 210px;
     left: 5px;
 }
+
+.blurred {
+    filter: blur(5px);  /* Adjust blur intensity */
+    opacity: 0.5;       /* Makes it slightly faded */
+    transition: all 0.5s ease-in-out;
+}
+
+#finalWords {
+    position: absolute;
+    inset: 0;
+    text-align: center;
+    top: 250px;
+}

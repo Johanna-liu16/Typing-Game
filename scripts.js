@@ -50,6 +50,8 @@ async function renderWords() {
 // Typing logic
 let correctLetters = 0
 let timerStarted = false
+let timeUp = false
+
 function trackTyping() {
     const wordsContainer = document.getElementById('words');
     const letters = wordsContainer.querySelectorAll('.letter');
@@ -57,6 +59,11 @@ function trackTyping() {
 
 
     document.addEventListener('keydown', (event) => {
+        // end typing movement if time up
+        if (timeUp) {
+            return
+        }
+
         const key = event.key;
         const currentLetter = letters[currentIndex];
         const expected = currentLetter.innerHTML;
@@ -107,6 +114,12 @@ function trackTyping() {
             }
         }
 
+        // Check if last letter was typed
+        if (currentIndex === letters.length) {
+            gameOver()
+            return
+        }
+
         // move cursor 
         const cursor = document.getElementById('cursor')
         const nextLetter = letters[currentIndex];
@@ -144,8 +157,31 @@ function startTimer() {
 
         if (timer <= 0) {
             clearInterval(countdown); // Stop the timer at 0
+            timeUp = true
+            gameOver()
         }
     }, 1000);
+
+    function gameOver() {
+        let cursor = document.getElementById('cursor');
+        let wordsContainer = document.getElementById('words');
+        let finalWords = document.getElementById('finalWords')
+
+        // blur text
+        wordsContainer.classList.add('blurred')
+
+        //remove cursor
+        cursor.style.display = 'none'
+
+        //show text
+        finalWords.innerHTML = 'Click Anywhere to Restart';
+        finalWords.style.display = 'block'
+
+         // Add event listener to restart game on click
+        document.addEventListener('click', () => {
+        location.reload()
+    }, { once: true })
+    }
 }
 
 // Initialize the game
