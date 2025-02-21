@@ -43,16 +43,18 @@ async function renderWords() {
         wordsContainer.appendChild(span);
     });
 
-    // Start tracking typing input and timer
+    // Start tracking typing input
     trackTyping();
-    startTimer();
 }
 
 // Typing logic
+let correctLetters = 0
+let timerStarted = false
 function trackTyping() {
     const wordsContainer = document.getElementById('words');
     const letters = wordsContainer.querySelectorAll('.letter');
     let currentIndex = 0;
+
 
     document.addEventListener('keydown', (event) => {
         const key = event.key;
@@ -62,11 +64,22 @@ function trackTyping() {
         const isSpace = key === ' '
         const isBackspace = key === 'Backspace'
 
-        console.log({key, expected})
+        // start the timer
+        if (!timerStarted && key) {
+            startTimer();
+            timerStarted = true;
+        }
+
+        console.log(correctLetters)
 
         if (isLetter) {
             if (currentLetter) {
-                addClass(currentLetter, key === expected ? 'correct' : 'wrong')
+                if (key === expected) {
+                    correctLetters++
+                    addClass(currentLetter, 'correct')
+                } else {
+                    addClass(currentLetter, 'wrong')
+                }
                 currentIndex ++
             }
         }
@@ -77,6 +90,7 @@ function trackTyping() {
                 currentIndex++
             } else {
                 addClass(currentLetter, 'correct')
+                correctLetters++
                 currentIndex++
             }
         }
@@ -84,8 +98,12 @@ function trackTyping() {
         if(isBackspace) {
             if (currentLetter) {
                 currentIndex--
-                removeClass(letters[currentIndex], 'wrong')
-                removeClass(letters[currentIndex], 'correct')
+                const previousLetter = letters[currentIndex];
+                if (previousLetter.classList.contains('correct')) {
+                    correctLetters = Math.max(0, correctLetters - 1); // Prevent negative count
+                }
+                removeClass(previousLetter, 'correct');
+                removeClass(previousLetter, 'wrong');
             }
         }
 
@@ -116,6 +134,13 @@ function startTimer() {
     let countdown = setInterval(() => {
         timer--;
         timerElement.innerHTML = `${timer}`;
+
+        // Calculate WPM
+        let timeElapsed = (30 - timer) / 60; // Convert seconds to minutes
+        let wordsTyped = correctLetters / 5; // Convert characters to words
+        let wpm = Math.round(wordsTyped / timeElapsed)
+
+        document.getElementById('wpm').innerHTML = `WPM: ${wpm}`;
 
         if (timer <= 0) {
             clearInterval(countdown); // Stop the timer at 0

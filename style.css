@@ -36,6 +36,12 @@ h1 svg {
     font-size: 18px;
 }
 
+#wpm {
+    position: absolute;
+    right: 200px;
+    font-size: 18px;
+}
+
 #words {
     font-family: 'Roboto Mono', monospace;
     font-size: 30px;
